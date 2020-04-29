@@ -55,10 +55,11 @@
 
                 </div>
                 <div :class="`grid grid-cols-${game.events.length} gap-1`">
-                    <button class="bg-primary my-4 text-center font-bold flex justify-center items-center event__item-price"
+                    <button :class="['bg-primary my-4 text-center font-bold flex justify-center items-center event__item-price', {'active': selectedEvents.includes(event.id)}]"
+                      @click="addBet(game, event)"
                       v-for="(event, index2) in game.events" :key="index2">
                         {{event.price}}
-                      </button>
+                    </button>
                 </div>
             </div>
         </div>
@@ -71,8 +72,9 @@
 <script>
 // @ is an alias to /src
 import HelloWorld from '@/components/HelloWorld.vue';
-import { toRefs, onMounted, reactive } from 'vue';
+import { toRefs, onMounted, reactive, watch } from 'vue';
 import { api } from '../api/api';
+import { Events, emitter } from '../bus'
 
 export default {
   name: 'Home',
@@ -88,11 +90,17 @@ export default {
       allMarkets: [],
       games: [],
       eventLabels: [],
-      bets: []
+      bets: {},
+      selectedEvents: []
     });
 
     onMounted(() => {
       initiate()
+    })
+
+    watch(() => state.selectedEvents, (value) => {
+      emitter.emit(Events.BOOKED_EVENTS_COUNT_UPDATE, value)
+      emitter.on(Events.BOOKED_EVENTS_COUNT_UPDATE, e => console.log(value))
     })
 
     function initiate(group = "sport") {
@@ -157,7 +165,28 @@ export default {
       }
     }
 
-    return { ...toRefs(state), setCategory, setCurrentMarket }
+    function addBet(game, event){
+      if (state.bets[game.market_id]) {
+        if (state.bets[game.market_id].event_id === event.id) {
+          state.selectedEvents.splice(state.selectedEvents.indexOf(event.id), 1)
+          delete state.bets[game.market_id]
+          emitter.emit(Events.BOOKED_EVENTS_COUNT_UPDATE, state.selectedEvents)
+        } else {
+          state.selectedEvents.splice(state.selectedEvents.indexOf(state.bets[game.market_id].event_id), 1)
+          state.selectedEvents.push(event.id)
+          state.bets[game.market_id].event_id = event.id
+          emitter.emit(Events.BOOKED_EVENTS_COUNT_UPDATE, state.selectedEvents)
+        }
+      } else {
+        state.bets[game.market_id] = {
+          'event_id': event.id
+        }
+        state.selectedEvents.push(event.id)
+        emitter.emit(Events.BOOKED_EVENTS_COUNT_UPDATE, state.selectedEvents)
+      }
+    }
+
+    return { ...toRefs(state), setCategory, setCurrentMarket, addBet }
   }
 };
 </script>

@@ -3,7 +3,7 @@
         <div class="container grid grid-rows-2 row-gap-5">
             <div class="header__content flex justify-between">
                 <div class="header__contect-icon flex justify-center items-center">
-                    <button class="bg-transparent pr-2">
+                    <button class="bg-transparent pr-2" @click="toggleDrawer()">
                         <i class="fas fa-bars"></i>
                     </button>
                     <b class="text-base uppercase">a - z</b>
@@ -22,11 +22,17 @@
 </template>
 
 <script>
-import { computed } from "vue";
+import { computed ,ref } from "vue"
+import { emitter, Events } from '../bus'
 export default {
     setup() {
         const logo = computed(() => require('@/assets/logo.svg'))
-        return { logo }
+
+        function toggleDrawer(){
+            emitter.emit(Events.DRAWER_TOGGLE)
+        }
+
+        return { logo, toggleDrawer }
     }
 }
 </script>
