@@ -20,8 +20,8 @@
         <!-- Gameboard Header -->
         <div class="competition bg-primary py-3">
             <div class="container flex justify-between">
-                <button class="competition__content flex flex-row items-center w-3/6" @click="e => updateCompetitionPicketState()">
-                    <i class="fas fa-football-ball mr-3"></i>
+                <button class="competition__content flex flex-row items-center w-3/6 border border-black rounded text-center" @click="e => updateCompetitionPicketState()">
+                    <i class="fas fa-football-ball mx-3"></i>
                     <p class="competition__content-title">{{selectedCompetition.name}}</p>
                 </button>
                 <div class=" w-3/6 event__content flex justify-around items-center text-center">

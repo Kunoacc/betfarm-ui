@@ -1,11 +1,11 @@
 <template>
   <div class="fixed top-0 bottom-0 left-0 right-0 modal flex justify-center items-center z-10">
-      <div class="w-3/4 md:w-1/2 bg-accent rounded-sm p-6 relative modal__content">
+      <div class="w-4/5 md:w-1/2 bg-accent rounded-sm p-6 relative modal__content">
         <h2 class="text-2xl font-bold uppercase text-center">Competitions</h2>
         <div class="competitions py-8 grid grid-cols-1 row-gap-5 text-center" v-if="competitions.length > 0">
             <span class="text-sm py-3 text-black capitalize"> Please select a competition</span>
             <button v-for="(competition, index) in competitions"
-            :class="['p-2 border-2 competition transition-all duration-300 rounded w-2/3 mx-auto', {'active': selectedCompetition.id === competition.id}]"
+            :class="['p-2 border-2 competition transition-all duration-300 rounded w-3/4 mx-auto', {'active': selectedCompetition.id === competition.id}]"
              @click="e => updateSelected(competition)"
              :key="index"
             > {{competition.name}} </button>
