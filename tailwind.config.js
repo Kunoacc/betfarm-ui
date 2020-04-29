@@ -43,7 +43,8 @@ module.exports = {
           '8': '8'
         },
         gridTemplateColumns: {
-          'markets': 'repeat(auto-fill, min-content)'
+          'markets': 'repeat(auto-fill, min-content)',
+          'event-price': 'repeat(auto-fill, minmax(1rem, 2rem))',
         }
       },
     },
