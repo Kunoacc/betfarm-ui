@@ -121,7 +121,6 @@ class Api {
                     'id': keys[index],
                     'name': value.name
                 }))
-
             return values;
         }
     }
@@ -171,16 +170,16 @@ class Api {
                     return games.sort(gamesSorter);
                 },
 
-                getByCompetition: () => {
+                getByCompetition: (competitionId = null) => {
                     const category = this.api[this.group][this.category.id];
                     const regions = category.region;
                     const competition = Object.values(regions).reduce((accumulator, currentValue) => {
                         const keys = Object.keys(currentValue.competition);
                         const values = Object.values(currentValue.competition);
-                        if (keys.indexOf(this.competition.id) === -1) {
+                        if (!keys.includes(competitionId || this.competition.id)) {
                             return accumulator
                         } else {
-                            Object.assign(accumulator, values[keys.indexOf(this.competition.id)])
+                            Object.assign(accumulator, values[keys.indexOf(competitionId || this.competition.id)])
                             return accumulator;
                         }
                     }, {});
@@ -197,18 +196,18 @@ class Api {
                     return games.sort(gamesSorter);
                 },
 
-                getByMarket: (marketName) => {
-                    const allGames = this.games().getByCompetition();
-                    console.log(allGames)
+                getByMarket: (marketName, competitionId = null) => {
+                    const allGames = this.games().getByCompetition(competitionId);
                     // Big(O)n2. Not so efficient, another quick Fix
-                    const gamesReducer = (accumulator, currentValue, index) => {
+                    const gamesReducer = (accumulator, currentValue) => {
                         const events = Object.values(currentValue.market)
                         const eventKeys = Object.keys(currentValue.market)
+                        console.log(eventKeys)
                         if (!events.map(x => x.name).includes(marketName)) {
                             return accumulator;
                         } else {
                             let game = {}
-                            events.forEach(val => {
+                            events.forEach((val, index) => {
                                 if (val.name === marketName) {
                                     game.id = currentValue.id
                                     game.info = currentValue.info
@@ -242,8 +241,7 @@ class Api {
             const competitions = regions.map(x => Object.values(x.competition)).flat();
             const games = competitions.map(x => Object.values(x.game)).flat();
             const markets = games.map(x => Object.values(x.market)).flat();
-            const events = markets.map(x => Object.values(x.event)).flat();
-            return events.length;
+            return markets.length;
         }
     }
 

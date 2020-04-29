@@ -25,9 +25,9 @@ export default {
         })
 
         function toggleDrawer(){
-            emitter.emit(Events.DRAWER_TOGGLE)
+            isOpen.value = !isOpen.value
         }
-        
+
         return { isOpen, toggleDrawer }
     }
 }
