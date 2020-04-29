@@ -20,10 +20,12 @@
         <!-- Gameboard Header -->
         <div class="competition bg-primary py-3">
             <div class="container flex justify-between">
-                <button class="competition__content flex flex-row items-center w-3/6 border border-black rounded text-center" @click="e => updateCompetitionPicketState()">
-                    <i class="fas fa-football-ball mx-3"></i>
+              <div class="competition__content w-3/6">
+                <button class="flex w-full flex-row items-center border border-black rounded text-center px-3" @click="e => updateCompetitionPicketState()">
+                    <i class="fas fa-football-ball mr-3"></i>
                     <p class="competition__content-title">{{selectedCompetition.name}}</p>
                 </button>
+              </div>
                 <div class=" w-3/6 event__content flex justify-around items-center text-center">
                     <p v-for="(label, index) in eventLabels" :key="index">{{label}}</p>
                 </div>
@@ -36,19 +38,19 @@
               <div class="event__item grid grid-cols-2 gap-10 py-2" v-for="(game, index) in games" :key="index">
                   <div class="grid grid-cols-1 row-gap-2">
                       <div class="flex-row flex justify-between">
-                          <p class="event__item-team font-bold">{{game.team_one_name}}</p>
-                          <p class="event__item-score font-bold">{{game.info.score1}}</p>
+                          <p class="event__item-team font-semibold text-sm">{{game.team_one_name}}</p>
+                          <p class="event__item-score font-semibold text-sm">{{game.info.score1}}</p>
                       </div>
                       <div class="flex-row flex justify-between">
-                          <p class="event__item-team font-bold">{{game.team_two_name}}</p>
-                          <p class="event__item-score font-bold">{{game.info.score2}}</p>
+                          <p class="event__item-team font-semibold text-sm">{{game.team_two_name}}</p>
+                          <p class="event__item-score font-semibold text-sm">{{game.info.score2}}</p>
                       </div>
                       <div class="flex-row flex justify-between">
-                          <p class="event__item-game font-bold text-sm">
+                          <p class="event__item-game font-semibold text-sm">
                               <span class="event__item-gamestate">{{game.info.current_game_state === "se1" ? "1st Half " : "2nd Half "}}</span>
                               <span class="event__item-gametime">{{game.info.current_game_time}}"</span>
                           </p>
-                          <p class="event__item-gameicon font-bold">
+                          <p class="event__item-gameicon font-semibold">
                               <i class="fas fa-star"></i>
                           </p>
                       </div>
@@ -207,11 +209,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .competition__content-title{
+  .competition__content{
+    & > button {
+      cursor: pointer;
+      width: 100%;
+    }
+
+    &-title{
     text-overflow: ellipsis;
     overflow: hidden;
-    word-wrap: none;
-}
+    white-space: nowrap;
+    }
+  }
 
 .event__item-price.active {
     @apply text-white bg-secondary;
@@ -223,4 +232,19 @@ export default {
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
 }
+
+.event__item:not(:last-child){
+  @apply border-b border-gray-400;
+}
+
+/* Medium (md) */
+@media (min-width: 640px) {
+  .competition__content{
+    & > button {
+      cursor: pointer;
+      width: min-content;
+    }
+  }
+}
+
 </style>

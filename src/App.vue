@@ -2,7 +2,7 @@
   <div id="app">
     <app-header></app-header>
     <app-drawer></app-drawer>
-    <main class="pb-16">
+    <main class="pb-24">
       <router-view/>
     </main>
     <app-footer></app-footer>
