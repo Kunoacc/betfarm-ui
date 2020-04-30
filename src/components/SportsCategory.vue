@@ -1,10 +1,7 @@
 <template>
     <button :class="['sports__category transition-all duration-300 ease-linear focus:outline-none', {'active': isActive}]">
         <div class="sports__category-wrapper flex items-center flex-col py-5 bg-accent">
-            <div
-                class="sports__category-image flex justify-center items-center gap-5 transition-all duration-300 ease-linear">
-                <i :class="['fas', iconClass]"></i>
-            </div>
+            <div class="sports__category-image flex justify-center items-center gap-5 transition-all duration-300 ease-linear"></div>
             <p class="sports__category-title capitalize mt-4">{{title}}</p>
         </div>
     </button>
@@ -13,10 +10,6 @@
 <script>
 export default {
     props: {
-        iconClass: {
-            type: String,
-            required: true
-        },
         title: {
             type: String,
             required: true
@@ -41,7 +34,7 @@ export default {
             }
 
             & .sports__category-title{
-                @apply font-bold;
+                @apply font-semibold;
             }
 
             & .sports__category-image{
@@ -50,7 +43,7 @@ export default {
         }
 
         & .sports__category-image {
-            @apply rounded-full h-12 w-12 bg-primary;
+            @apply rounded-full h-8 w-8 bg-primary;
         }
 
         & .sports__category-wrapper {

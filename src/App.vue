@@ -11,6 +11,6 @@
 
 <style lang="scss">
 * {
-    @apply font-body;
+    @apply font-body font-normal text-sm;
 }
 </style>

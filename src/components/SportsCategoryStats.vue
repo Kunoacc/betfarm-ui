@@ -1,8 +1,8 @@
 <template>
    <div class="bg-secondary py-4">
         <div class="container flex justify-between">
-            <p class="text-white capitalize">{{category}}</p>
-            <p class="text-white">{{events}}</p>
+            <p class="text-white capitalize text-accent">{{category}}</p>
+            <p class="text-white text-accent">{{events}}</p>
         </div>
     </div>
 </template>
