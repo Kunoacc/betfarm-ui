@@ -28,6 +28,7 @@ export default {
 
     & > button {
         width: max-content;
+        @apply border-b-4 border-transparent;
     }
 
     & > button.active {

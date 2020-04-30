@@ -1,8 +1,8 @@
 <template>
     <button :class="['sports__category transition-all duration-300 ease-linear focus:outline-none', {'active': isActive}]">
-        <div class="sports__category-wrapper flex items-center flex-col py-5 bg-accent">
+        <div class="sports__category-wrapper flex items-center flex-col py-4 bg-accent">
             <div class="sports__category-image flex justify-center items-center gap-5 transition-all duration-300 ease-linear"></div>
-            <p class="sports__category-title capitalize mt-4">{{title}}</p>
+            <p class="sports__category-title capitalize mt-2">{{title}}</p>
         </div>
     </button>
 </template>

@@ -4,7 +4,7 @@
     <!-- Sports Categories -->
     <div class="sports bg-accent">
       <div class="container flex justify-around">
-        <sports-category v-for="(value, index) in categories" :icon-class="`fa-${value.name.toLowerCase()}-ball`"
+        <sports-category v-for="(value, index) in categories"
           :title="value.name" :is-active="value.name == selectedCategory.name" :key="index" @click="setCategory(value)"></sports-category>
       </div>
     </div>
@@ -17,14 +17,14 @@
 
     <div class="gameboard w-full" v-if="selectedCompetition.name">
 
+      <div class="w-full" v-for="(competition, index) in competitions" :key="index">
         <!-- Gameboard Header -->
         <div class="competition bg-primary py-3">
             <div class="container flex justify-between">
               <div class="competition__content w-3/6">
-                <button class="flex w-full flex-row items-center border border-black rounded text-center px-3" @click="e => updateCompetitionPicketState()">
-                    <i class="fas fa-football-ball mr-3"></i>
-                    <p class="competition__content-title">{{selectedCompetition.name}}</p>
-                </button>
+                <div class="flex w-full flex-row competition__content-header items-center text-left">
+                    <p class="competition__content-title">{{competition.name}}</p>
+                </div>
               </div>
                 <div class=" w-3/6 event__content flex justify-around items-center text-center">
                     <p v-for="(label, index) in eventLabels" :key="index">{{label}}</p>
@@ -35,20 +35,20 @@
         <!-- Gameboard Body -->
         <div class="events bg-accent">
           <div class="container grid grid-cols-1">
-              <div class="event__item grid grid-cols-2 gap-10 py-2" v-for="(game, index) in games" :key="index">
-                  <div class="grid grid-cols-1 row-gap-2">
+              <div class="event__item grid grid-cols-2 gap-5 py-2" v-for="(game, index) in apiInstance.games().getByMarket(selectedMarket, competition.id)" :key="index">
+                  <div class="grid grid-cols-1 row-gap-3">
                       <div class="flex-row flex justify-between">
-                          <p class="event__item-team font-semibold text-sm">{{game.team_one_name}}</p>
-                          <p class="event__item-score font-semibold text-sm">{{game.info.score1}}</p>
+                          <p class="event__item-team font-semibold ">{{game.team_one_name}}</p>
+                          <p class="event__item-score font-semibold  ml-2 pr-1">{{game.info.score1}}</p>
                       </div>
                       <div class="flex-row flex justify-between">
-                          <p class="event__item-team font-semibold text-sm">{{game.team_two_name}}</p>
-                          <p class="event__item-score font-semibold text-sm">{{game.info.score2}}</p>
+                          <p class="event__item-team font-semibold ">{{game.team_two_name}}</p>
+                          <p class="event__item-score font-semibold  ml-2 pr-1">{{game.info.score2}}</p>
                       </div>
                       <div class="flex-row flex justify-between">
-                          <p class="event__item-game font-semibold text-sm">
-                              <span class="event__item-gamestate">{{game.info.current_game_state === "se1" ? "1st Half " : "2nd Half "}}</span>
-                              <span class="event__item-gametime">{{game.info.current_game_time}}"</span>
+                          <p class="event__item-game font-semibold">
+                              <span class="event__item-gamestate font-semibold text-xs">{{game.info.current_game_state === "se1" ? "1st Half " : "2nd Half "}}</span>
+                              <span class="event__item-gametime font-semibold text-xs">{{game.info.current_game_time}}"</span>
                           </p>
                           <p class="event__item-gameicon font-semibold">
                               <i class="fas fa-star"></i>
@@ -56,8 +56,8 @@
                       </div>
 
                   </div>
-                  <div :class="`grid grid-cols-${game.events.length} gap-1`">
-                      <button :class="['bg-primary my-4 text-center font-bold flex justify-center items-center event__item-price',
+                  <div :class="`grid grid-cols-${game.events.length} gap-1/2`">
+                      <button :class="['bg-primary my-4 text-center font-bold flex justify-center items-center event__item-price focus:outline-none',
                       {'active': selectedEvents.includes(event.id)}]"
                       :disabled="!event.price"
                         @click="addBet(game, event)"
@@ -68,25 +68,19 @@
               </div>
           </div>
         </div>
-
-      </div>
-      <div class="py-10 flex flex-grow text-center justify-center items-center text-base" v-else>
-        <p>No game data available for the selected category</p>
       </div>
 
-    <transition name="fade">
-      <competition-picker :competitions="competitions" :selected-competition="selectedCompetition"
-        @update-competition="e => updateCompetition(e)"
-        @toggle-picker-state="e => updateCompetitionPicketState()"
-        v-if="competitionPickerState"></competition-picker>
-    </transition>
+    </div>
+    <div class="py-10 flex flex-grow text-center justify-center items-center text-base" v-else>
+      <p>No game data available for the selected category</p>
+    </div>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
 import HelloWorld from '@/components/HelloWorld.vue';
-import { toRefs, onMounted, reactive, watch } from 'vue';
+import { toRefs, onMounted, reactive, watch, computed } from 'vue';
 import { api } from '../api/api';
 import { Events, emitter } from '../bus'
 
@@ -106,8 +100,9 @@ export default {
       eventLabels: [],
       bets: {},
       selectedEvents: [],
-      competitionPickerState: false
     });
+
+    const apiInstance = computed(() => api)
 
     onMounted(() => {
       initiate()
@@ -118,9 +113,9 @@ export default {
       emitter.on(Events.BOOKED_EVENTS_COUNT_UPDATE, e => console.log(value))
     })
 
-    function updateCompetitionPicketState() {
-      state.competitionPickerState = !state.competitionPickerState;
-    }
+    // function updateCompetitionPicketState() {
+    //   state.competitionPickerState = !state.competitionPickerState;
+    // }
 
     function initiate(group = "sport") {
       api.setGroup(group)
@@ -203,7 +198,7 @@ export default {
       }
     }
 
-    return { ...toRefs(state), setCategory, setCurrentMarket, addBet, updateCompetition, updateCompetitionPicketState }
+    return { ...toRefs(state), setCategory, setCurrentMarket, addBet, updateCompetition, apiInstance }
   }
 };
 </script>
@@ -215,10 +210,18 @@ export default {
       width: 100%;
     }
 
+    &-header {
+      &::before {
+        @apply h-4 w-4 rounded-full absolute bg-secondary;
+        content: "";
+      }
+    }
+
     &-title{
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+    @apply pl-6;
     }
   }
 
@@ -233,8 +236,16 @@ export default {
   opacity: 0;
 }
 
-.event__item:not(:last-child){
+.event__item{
+  &:not(:last-child){
   @apply border-b border-gray-400;
+  }
+
+  &-team, &-score, &-gamestate, &-gametime {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
 }
 
 /* Medium (md) */

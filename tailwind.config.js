@@ -20,6 +20,9 @@ module.exports = {
           'accent': '#F3EAC6',
           'disabled': '#88a5e5'
         },
+        gap: {
+          '1/2': '0.125rem'
+        },
         height: {
           '72': '24rem',
           '80': '20rem',

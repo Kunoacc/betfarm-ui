@@ -2,14 +2,14 @@
   <header class="bg-primary w-full py-4">
         <div class="container grid grid-rows-2 row-gap-5">
             <div class="header__content flex justify-between">
-                <div class="header__contect-icon flex justify-center items-center">
-                    <button class="bg-transparent pr-2" @click="toggleDrawer()">
+                <div class="header__contect-icon flex justify-center items-center text-base">
+                    <button class="bg-transparent pr-2 focus:outline-none" @click="toggleDrawer()">
                         <i class="fas fa-bars"></i>
                     </button>
                     <b class="text-base uppercase">a - z</b>
                 </div>
-                <img :src="logo" alt="" srcset="">
-                <button>
+                <img :src="logo" alt="" srcset="" class="-ml-8">
+                <button class="text-base focus:outline-none">
                     <i class="fas fa-search"></i>
                 </button>
             </div>
