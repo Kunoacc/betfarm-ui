@@ -11,7 +11,7 @@
 
     <sports-category-stats :category="selectedCategory.name" :events="categoryEvents"></sports-category-stats>
 
-    <div class="markets overflow-auto bg-accent py-4 flex justify-center" v-if="allMarkets.length > 0">
+    <div class="markets overflow-auto bg-accent py-4" v-if="allMarkets.length > 0">
         <market-names :names="allMarkets" @marketUpdated="e => setCurrentMarket(e)" :current-market="selectedMarket"></market-names>
     </div>
 

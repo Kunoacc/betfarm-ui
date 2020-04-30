@@ -1,5 +1,5 @@
 <template>
-    <div class="market__names inline-flex flex-row mx-auto">
+    <div class="market__names inline-flex flex-row mx-auto justify-around min-w-full">
         <market-name v-for="(name, index) in names" :key="index"
             :is-active-market="name === currentMarket" @click="updateMarket(name)">
             {{name}}
