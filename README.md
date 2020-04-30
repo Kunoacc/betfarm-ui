@@ -1,10 +1,10 @@
 # BetFarm UI
 this is a Proof of Concept project modelled after given designs for Betfarm. It was implemented using VueJS 3 and Tailwind CSS.
 
-Project is live on [Netlify](https://betfarmui.netlify.app/).
+Project is live on [Netlify](https://betfarmui-v2.netlify.app/).
 ## Notes
 
-* Borders were added that deviated from design to highlight features of such elements (e.g, Around competition name to emphasize clickable properties)
+~~* Borders were added that deviated from design to highlight features of such elements (e.g, Around competition name to emphasize clickable properties)~~
 
 ## Project setup
 ```
